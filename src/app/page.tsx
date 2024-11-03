@@ -3,7 +3,7 @@ import prisma from "@/lib/db";
 import Link from "next/link";
 
 export default async function Home() {
-  const allPost = await prisma.post.findMany();
+  // const allPost = await prisma.post.findMany();
 
   const user = await prisma.user.findUnique({
     where: {
