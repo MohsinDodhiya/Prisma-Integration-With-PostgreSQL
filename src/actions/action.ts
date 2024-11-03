@@ -10,6 +10,11 @@ export async function createPost(formData: FormData) {
         .replace(/\s+/g, "-")
         .toLowerCase(),
       content: formData.get("content") as string,
+      author: {
+        connect: {
+          email: "mdodhiya653@rku.ac.in",
+        },
+      },
     },
   });
   revalidatePath("/posts");
@@ -23,5 +28,3 @@ export async function deletePost(id: string) {
   });
   revalidatePath("/posts");
 }
-
-
