@@ -9,12 +9,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
   id             String @id @default(cuid())
+  username       String @unique
   email          String @unique
   hashedPassWord String
   posts          Post[]
@@ -26,10 +28,10 @@ model Post {
   slug      String   @unique
   content   String
   published Boolean? @default(false)
-  auther    User     @relation(fields: [autherId], references: [id])
-  autherId  String 
-  updateAt  DateTime @updatedAt
-  createAt  DateTime @default(now()) @map("createAt")
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 
-  @@index(slug)
+  @@index([slug])
 }
